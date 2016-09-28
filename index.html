@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<title>#WHAMJAMMAKER</title>
+	<style>
+		table { border-collapse: collapse; margin: 50px auto; width: 90%; }
+		td, th { text-align: center; font-size: 35px; }
+		body { font-family: "Gloria Hallelujah", serif; }
+	</style>
+	<script>
+		// whamjammaker
+
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++ ) {
+			    color += letters[Math.floor(Math.random() * 16)];
+			}
+			console.log(color);
+			return color;
+		}
+
+		$(document).ready(function(){
+
+			var names = [
+				"#",
+				"Willa",
+				"Hannah",
+				"Alex",
+				"Mignon",
+				"James",
+				"Astrid",
+				"Megan",
+				"Maeve",
+				"Aidric",
+				"Kevin",
+				"Ed",
+				"Riley"
+			];
+
+			var columns = names.length;
+			var rows = 0;
+
+			var colWidth = parseInt( 100 / columns );
+
+			for( var i = 0; i < columns; i++ ) {
+				if ( names[i].length > rows ) {
+					rows = names[i].length;
+				}
+			}
+
+			var tableHTML = "";
+
+			for( var r = 0; r < rows; r++ ) {
+				tableHTML += "<tr>";
+				for( var c = 0; c < columns; c++ ) {
+					tableHTML += "<td id='col" + c + "row" + r + "'></td>";
+				}
+				tableHTML += "</tr>";
+			}
+
+			$("#whamjammaker").html( tableHTML );
+			$("#whamjammaker td").css( "width", colWidth + "%" );
+
+			var letterPause = 200;
+			var namePause = 200;
+
+			nameIndex = 0;
+			rowIndex = 0;
+			var nameColor = getRandomColor();
+
+			function doNextLetter () {
+
+				var cellColor;
+
+				if ( rowIndex === 0 ) {
+					cellColor = "#000000";
+				}
+				else {
+					cellColor = nameColor;
+				}
+
+				if ( names[nameIndex][rowIndex] ) {
+
+					$("#col" + nameIndex + "row" + rowIndex ).css("color",cellColor).text( names[nameIndex][rowIndex] );
+					rowIndex++;
+					console.log( 1 );
+					setTimeout( doNextLetter, letterPause );
+				}
+
+				// jump to next name if exists
+				else if ( names[nameIndex + 1] ) {
+					nameIndex++;
+					rowIndex = 0;
+					console.log( 2 );
+					nameColor = getRandomColor();
+					setTimeout( doNextLetter, namePause );
+				}
+				else {
+					console.log("complete");
+				}
+
+			}
+
+			doNextLetter();
+
+		});
+
+	</script>
+</head>
+<body>
+	<table id="whamjammaker"></table>
+</body>
+</html>
